@@ -81,7 +81,13 @@ class CSVUploadView(APIView):
                 })
 
         return Response({
-            'saved': saved_count,
-            'rejected': rejected_count,
-            'errors': errors
+            "total_saved": saved_count,
+            "total_rejected": rejected_count,
+            "detailed_errors": [
+                {
+                    "row": err["row"],
+                    "errors": err["errors"],
+                    "data": err["data"]
+                } for err in errors
+            ]
         }, status=status.HTTP_200_OK)
