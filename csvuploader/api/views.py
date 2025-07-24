@@ -1,3 +1,14 @@
+from rest_framework.permissions import IsAdminUser, AllowAny
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.views import APIView
+
+class ClearUsersView(APIView):
+    permission_classes = [AllowAny]
+
+    @swagger_auto_schema(operation_description="Delete all users db.", responses={200: "All users deleted."})
+    def post(self, request):
+        User.objects.all().delete()
+        return Response({"message": "All users deleted."}, status=status.HTTP_200_OK)
 import csv
 import io
 from rest_framework.views import APIView
